@@ -15,6 +15,9 @@ public class NewEntry extends AppCompatActivity {
     private EditText partNameEntry;
     private EditText quantityEntry;
     private EditText carInfoEntry;
+
+    private EditText priceEntry;
+
     DatabaseOpenHelper dbHelper2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class NewEntry extends AppCompatActivity {
         partNameEntry = findViewById(R.id.partNameEntry);
         quantityEntry = findViewById(R.id.quantityEntry);
         carInfoEntry = findViewById(R.id.carInfoEntry);
+        priceEntry = findViewById(R.id.priceEntry);
 
         dbHelper2= new DatabaseOpenHelper(this);
 
@@ -42,18 +46,26 @@ public class NewEntry extends AppCompatActivity {
 
 
                 String partNameString = partNameEntry.getText().toString();
-                int quantity = Integer.parseInt(quantityEntry.getText().toString());
-                String carInfoString = carInfoEntry.getText().toString();
+                String tempqty = quantityEntry.getText().toString();
+                String priceString = priceEntry.getText().toString();
+                if (partNameString.equals("") || tempqty.equals("")||priceString.equals("")){
+                    String message= "Part Name, qty and price cannot be emtpy";
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                }
 
 
-                String message = " Part Name: " + partNameString + "\nquantity: " + quantity + "\ncar info: " + carInfoString;
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                else {
 
-                //add data to database
-                dbHelper2.insert(partNameString, quantity, carInfoString);
-                finish();
+                    int quantity = Integer.parseInt(tempqty);
+                    String carInfoString = carInfoEntry.getText().toString();
 
 
+
+                    //add data to database
+                    dbHelper2.insert(partNameString, quantity, carInfoString, priceString);
+                    finish();
+
+                }
             }
         });
     }

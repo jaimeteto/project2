@@ -31,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
         btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Define the behavior when the "Place an Order" button is clicked
-                // For example, you can show a toast message
-                // or open another activity if needed.
+                // create intent to open placeOrder
+                Intent intent = new Intent(MainActivity.this, placeOrder.class);
+                startActivity(intent);
+
+
             }
         });
     }

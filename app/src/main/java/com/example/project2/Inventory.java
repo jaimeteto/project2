@@ -33,8 +33,10 @@ public class Inventory extends AppCompatActivity {
     final public static String NAME = "inventory_db";
     final private static Integer VERSION = 1;
     final public static String QTY = "quantity";
+    final public static String PRICE = "price";
+
     final public static String[] allColumns = { _ID,
-            PART_NAME,QTY,CAR_INFO };
+            PART_NAME,QTY,CAR_INFO,PRICE };
     Button addButton;
 
     @Override
@@ -46,16 +48,13 @@ public class Inventory extends AppCompatActivity {
         //mlist.setAdapter(myAdapter);
 
         dbHelper = new DatabaseOpenHelper(this);
-        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
+        //dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 2, 3);
         addButton = findViewById(R.id.add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create an Intent to start the 'Entry' activity
                 Intent intent = new Intent(Inventory.this, NewEntry.class);
-
-                // You may pass data to the new activity using extras if needed
-                // intent.putExtra("key", "value");
 
                 // Start the 'Entry' activity
                 startActivity(intent);
@@ -103,41 +102,38 @@ public class Inventory extends AppCompatActivity {
             cursorAdapter1 = new SimpleCursorAdapter(getApplicationContext(),
                     R.layout.view1,
                     data,
-                    new String[] {"_id", "partName","quantity","carInfo" },
-                    new int[] {R.id.textView8, R.id.textView2,R.id.textView4,R.id.textView6},0);
+                    new String[] {"_id", "partName","quantity","carInfo","price"},
+                    new int[] {R.id.textView8, R.id.textView2,R.id.textView4,R.id.textView6,R.id.textView10},0);
             mCursor = data;
-//            cursorAdapter1.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-//                @Override
-//                public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-//                    if (view.getId() == R.id.list_item_root) {
-//                        // Set the unique identifier for the list item
-//                        int rowId = cursor.getInt(data.getColumnIndexOrThrow("_id"));
-//                        view.setTag(rowId);
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
+
             mlist.setAdapter(cursorAdapter1);
             mlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                                                  public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                                                      //open UpdateAndDelete activity
                                                      Intent intent = new Intent(Inventory.this, UpdateAndDeleteEntry.class);
-//                                                     Object tag = view.getTag();
-//                                                     String itemTag="";
+
+                                                     //this textview contains the id
                                                      TextView textView = view.findViewById(R.id.textView8);
 
-                                                     // Get the text from the TextView
-                                                     String text = textView.getText().toString();
+                                                     //this one contains the qty
+                                                     TextView textViewQuantity = view.findViewById(R.id.textView4);
 
-                                                     // Do something with the text
-                                                     // For example, you can show a toast message with the text
-                                                     Toast.makeText(Inventory.this, "Clicked item text: " + text, Toast.LENGTH_SHORT).show();
+                                                     //this one contains car info
+                                                     TextView textViewCarInfo = view.findViewById(R.id.textView6);
+
+
+                                                     // Get the text from the TextViews
+                                                     String text = textView.getText().toString();
+                                                     String text1 = textViewQuantity.getText().toString();
+                                                     String text2 = textViewCarInfo.getText().toString();
+
 
 
 
 
                                                      intent.putExtra("message_key", text);
+                                                     intent.putExtra("carInfo",text2);
+                                                     intent.putExtra("qty",text1);
                                                      startActivity(intent);
 
 

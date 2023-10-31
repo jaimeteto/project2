@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="16dp"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnInventory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Inventory"
-        android:textSize="18sp"
-        android:layout_marginEnd="16dp"/>
+    <LinearLayout
+        android:id="@+id/centerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/btnPlaceOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Place an Order"
-        android:textSize="18sp"/>
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jaime's Auto Salvage"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="16dp">
+        <Button
+            android:id="@+id/btnInventory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inventory"
+            android:textSize="18sp"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/btnPlaceOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Place an Order"
+            android:textSize="18sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

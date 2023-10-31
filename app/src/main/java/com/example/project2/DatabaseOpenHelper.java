@@ -10,31 +10,27 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
     final public static String PART_NAME = "partName";
     final public static String CAR_INFO = "carInfo";
     final public static String QTY = "quantity";
+    final public static String PRICE = "price";
 
     public static String _ID = "_id";
     final public static String NAME = "inventory_db";
     final private static Integer VERSION = 1;
     final private Context context;
     final public static String[] allColumns = { _ID,
-            PART_NAME,QTY, CAR_INFO };
+            PART_NAME,QTY, CAR_INFO ,PRICE};
     public DatabaseOpenHelper(Context context) {
         super(context, NAME, null,VERSION);
         this.context = context;
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        String CREATE_CMD = "CREATE TABLE " + TABLE_NAME + " (" + _ID +
-//                " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + PART_NAME + " TEXT NOT NULL,"+ QTY + "TEXT NOT NULL )";
-//        String CREATE_CMD = "CREATE TABLE "+TABLE_NAME+ "("
-//                + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + "partName TEXT NOT NULL, "
-//                + "quantity INTEGER);";
+
         String CREATE_CMD = "CREATE TABLE " + TABLE_NAME + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "partName TEXT NOT NULL, "
                 + "quantity INTEGER, "
-                + "carInfo TEXT);";
+                + "carInfo TEXT, "
+                + "price TEXT NOT NULL)";
 
         db.execSQL(CREATE_CMD);
         // these inserts only run when the database is first created
@@ -43,27 +39,24 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
         values.put(PART_NAME,"Fender");
         values.put(QTY,2);
         values.put(CAR_INFO,"Honda Accord 2015");
+        values.put(PRICE,"100.50");
         db.insert(TABLE_NAME,null,values);
         values.clear();
         values.put(PART_NAME,"Hood");
+        values.put(PRICE,"50.00");
         values.put(QTY,3);
         db.insert(TABLE_NAME,null,values);
         values.clear();
-//        values.put(PART_NAME,"engine");
-//        values.put(QTY,"5");
-//        db.insert(TABLE_NAME,null,values);
-//        values.clear();
-//        values.put(PART_NAME,"tire");
-//        values.put(QTY,"0");
-//        db.insert(TABLE_NAME,null,values);
+
 
     }
-    public void insert(String partName, int quantity,String carInfo) {
+    public void insert(String partName, int quantity,String carInfo,String price) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PART_NAME, partName);
         values.put(QTY, quantity);
         values.put(CAR_INFO, carInfo);
+        values.put(PRICE,price);
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
@@ -79,6 +72,24 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
         int status = db.delete(TABLE_NAME,null,null);
         db.close();
     }
+    public Cursor getPrice(String key){
+        Cursor c = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        c = db.query(TABLE_NAME, new String[] {PRICE}, "_id = ?", new String[] {key}, null, null, null);
+
+        //       db.close();
+        return c;
+
+    }
+    public Cursor getQuantity(String key){
+        Cursor c = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        c = db.query(TABLE_NAME, new String[] {QTY}, "_id = ?", new String[] {key}, null, null, null);
+
+        //       db.close();
+        return c;
+
+    }
     public Cursor readAll() {
         Cursor c = null;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -88,12 +99,18 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
         return c;
     }
 
-    public void update(String oldName, String newName) {
+    public void update(String _id, String carInfo, String qty,String price) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(PART_NAME, newName);
-        int status = db.update(TABLE_NAME, values, PART_NAME + "=?",
-                new String[] { oldName });
+        if(!price.equals(""))
+            values.put(PRICE, price);
+        if(!carInfo.equals(""))
+            values.put(CAR_INFO, carInfo);
+
+        if(!qty.equals(""))
+            values.put(QTY,qty);
+        int status = db.update(TABLE_NAME, values, _ID + "=?",
+                new String[] { _id });
         db.close();
     }
 

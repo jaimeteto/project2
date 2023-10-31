@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/quantityEntry"
-            android:inputType="numberDecimal"/>
+            android:inputType="number"/>
 
     </LinearLayout>
 
@@ -61,6 +61,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/carInfoEntry" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price:"
+            android:layout_gravity="center_vertical" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/priceEntry" />
 
     </LinearLayout>
     <LinearLayout
